@@ -1,0 +1,71 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Billboard</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Pinyon+Script" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="page-header">
+            <h1 class="title-billboard">BILLBOARD</h1>
+        </div>
+        <div class="content container">
+            <div class="row">
+                {% if posts %}
+                    {% for post in posts %}
+                        <div class="post">
+                            <p class="date-post">{{ post.date|date:"d/m/Y"}}</p>
+                            <h1 class="title">{{ post.title }}</h1>
+                            <p class="text">{{ post.text|linebreaksbr }}</p>
+                            <p class="author">{{ post.author|linebreaksbr }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <br><br><br><br>
+                    <div class="nopost">No messages... <br>Click the '+' button to add a new message</div>
+                    <br><br><br><br>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+
+            <!--form is sending my data (fieldset)-->
+        <form action="{% url 'newpost' %}" method="post">{% csrf_token %}
+            <fieldset class="form">
+                <legend class="date-text post-new-cont">{{ post.date }}</legend><br>
+                <p id="date" class="date-form"></p>
+                <input id="title" type="text" name="title" placeholder="Title"><br>
+                <br><br>
+                <textarea id="text" class="message" name="text" placeholder="Your message here"></textarea>
+                <br> <br><br>
+                <input id="author" type="text" class="user" name="author" placeholder="Author">
+            </fieldset>
+
+                <div class="checking">
+                    <div class = "date-xxx">
+                        <i class="fa fa-times sign1" aria-hidden="true"></i>
+                        <button type="submit" class="fa fa-check sign2" aria-hidden="true"></button>
+                    </div>
+                </div>
+        </form>
+        <div class="adding">
+            <div class="date-xxx">
+            <p class="plus">+</p>
+            </div>
+        </div>
+        <script>
+            n =  new Date();
+            y = n.getFullYear();
+            m = n.getMonth() + 1;
+            d = n.getDate();
+            document.getElementById("date").innerHTML = d + "/" + m + "/" + y;
+        </script>
+        <script src="{% static 'js/main.js' %}"></script>
+    </body>
+</html>
